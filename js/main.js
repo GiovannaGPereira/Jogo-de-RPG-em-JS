@@ -106,8 +106,15 @@ function update(location) {
   text.innerHTML = location.text;
 }
 
+// IMAGENS DE CADA BOTÃO QUANDO PRESSIONADO
+
+function changeSceneImage(image) {
+  document.getElementById("scene-image").src = "imagens/" + image;
+}
+
 function goTown() {
   update(locations[0]);
+  changeSceneImage("cidade.jpg");
 }
 
 function goStore() {
