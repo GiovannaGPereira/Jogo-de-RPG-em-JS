@@ -108,9 +108,9 @@ function update(location) {
 
 // IMAGENS DE CADA BOTÃO QUANDO PRESSIONADO
 const sceneImages = {
-  store: "/imagens/loja.jpg",
-  cave: "/imagens/caverna.jpeg",
-  dragon: "/imagens/dragao.jpg"
+  store: "imagens/loja.jpg",
+  cave: "imagens/caverna.jpg",
+  dragon: "imagens/dragao.jpg"
 };
 
 const sceneImage = document.getElementById("scene-image");
