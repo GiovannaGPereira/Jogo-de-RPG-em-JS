@@ -107,14 +107,28 @@ function update(location) {
 }
 
 // IMAGENS DE CADA BOTÃO QUANDO PRESSIONADO
+const sceneImages = {
+  store: "/imagens/loja.jpg",
+  cave: "/imagens/caverna.jpeg",
+  dragon: "/imagens/dragao.jpg"
+};
 
-function changeSceneImage(image) {
-  document.getElementById("scene-image").src = "imagens/" + image;
-}
+const sceneImage = document.getElementById("scene-image");
+
+document.getElementById("goStore").addEventListener("click", () => {
+  sceneImage.src = sceneImages.store;
+});
+
+document.getElementById("goCave").addEventListener("click", () => {
+  sceneImage.src = sceneImages.cave;
+});
+
+document.getElementById("fightDragon").addEventListener("click", () => {
+  sceneImage.src = sceneImages.dragon;
+});
 
 function goTown() {
   update(locations[0]);
-  changeSceneImage("cidade.jpg");
 }
 
 function goStore() {
