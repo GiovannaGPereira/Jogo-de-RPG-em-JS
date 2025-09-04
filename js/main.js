@@ -108,34 +108,28 @@ function update(location) {
 
 // IMAGENS DE CADA BOTÃO QUANDO PRESSIONADO
 const sceneImages = {
+  cidade: "imagens/cidade.jpg",
   store: "imagens/loja.jpg",
   cave: "imagens/caverna.jpg",
-  dragon: "imagens/dragao.jpg"
+  dragon: "imagens/dragao.jpg",
+  slime: "imagens/slime.jpg",
+  fangedbeast: "imagens/fangedbeast.jpg",
 };
 
 const sceneImage = document.getElementById("scene-image");
 
-document.getElementById("goStore").addEventListener("click", () => {
-  sceneImage.src = sceneImages.store;
-});
-
-document.getElementById("goCave").addEventListener("click", () => {
-  sceneImage.src = sceneImages.cave;
-});
-
-document.getElementById("fightDragon").addEventListener("click", () => {
-  sceneImage.src = sceneImages.dragon;
-});
-
 function goTown() {
+  sceneImage.src = sceneImages.cidade;
   update(locations[0]);
 }
 
 function goStore() {
+  sceneImage.src = sceneImages.store;
   update(locations[1]);
 }
 
 function goCave() {
+  sceneImage.src = sceneImages.cave;
   update(locations[2]);
 }
 
@@ -183,16 +177,19 @@ function sellWeapon() {
 }
 
 function fightSlime() {
+  sceneImage.src = sceneImages.slime;
   fighting = 0;
   goFight();
 }
 
 function fightBeast() {
+  sceneImage.src = sceneImages.fangedbeast;
   fighting = 1;
   goFight();
 }
 
 function fightDragon() {
+  sceneImage.src = sceneImages.dragon;
   fighting = 2;
   goFight();
 }
