@@ -68,5 +68,5 @@ button:hover {
   margin-top: 15px;
   border-radius: 10px; /* Faz a imagem acompanhar o formato arredondado */
   opacity: 1;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.6s ease-in-out;
 }

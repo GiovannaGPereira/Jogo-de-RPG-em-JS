@@ -119,11 +119,11 @@ const sceneImages = {
 function changeImage(newSrc) {
   sceneImage.style.opacity = 0;
   setTimeout (() => {
-    sceneImage = newSrc;
+    sceneImage.src = newSrc;
     sceneImage.onload = () => {
       sceneImage.style.opacity = 1;
     };
-  }, 300);
+  }, 600);
 };
 
 const sceneImage = document.getElementById("scene-image");
