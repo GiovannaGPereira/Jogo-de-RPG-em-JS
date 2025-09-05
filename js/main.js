@@ -158,22 +158,29 @@ function buyHealth() {
 }
 
 function changeImage(newSrc) {
+  // Se a imagem visível já for a nova, não faz nada
   if (visibleImg.src && visibleImg.src.includes(newSrc)) return;
 
+  // Precarrega a nova imagem
   preload(newSrc).then(() => {
+    // Define o src da imagem oculta
     hiddenImg.src = newSrc;
-    hiddenImg.classList.remove('show');
-    void hiddenImg.offsetWidth;
 
+    // Remove classes anteriores
+    hiddenImg.classList.remove('show');
+    void hiddenImg.offsetWidth; // Força o reflow
+
+    // Adiciona a classe para mostrar a imagem
     hiddenImg.classList.add('show');
+
+    // Esconde a imagem visível após o tempo da transição
     setTimeout(() => {
       visibleImg.classList.remove('show');
-      const temp = visibleImg;
-      visibleImg = hiddenImg;
-      hiddenImg = temp;
-    }, 620);
+      // Troca as referências das imagens
+      [visibleImg, hiddenImg] = [hiddenImg, visibleImg];
+    }, 620); // 620ms para coincidir com a transição de 600ms
   }).catch(err => {
-    console.error(err);
+    console.error('Erro ao carregar a imagem:', err);
   });
 }
 
