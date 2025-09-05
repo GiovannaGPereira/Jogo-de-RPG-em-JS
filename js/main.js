@@ -158,34 +158,23 @@ function buyHealth() {
 }
 
 function changeImage(newSrc) {
-  // se já está mostrando a mesma imagem, sai
   if (visibleImg.src && visibleImg.src.includes(newSrc)) return;
 
-  // preload evita flash branco
   preload(newSrc).then(() => {
-    // define o src na imagem escondida
     hiddenImg.src = newSrc;
 
-    // prepara classes pra animação
-    // garante que o repaint aconteça
     hiddenImg.classList.remove('show', 'enter');
-    void hiddenImg.offsetWidth; // forçar reflow para garantir transição
+    void hiddenImg.offsetWidth;
 
-    // mostra a imagem escondida (fade in)
     hiddenImg.classList.add('show', 'enter');
 
-    // esconde a antiga depois de um pequeno delay (coordenado com o transition)
-    // aqui usamos timeout levemente maior que a transição para garantir suavidade
     setTimeout(() => {
       visibleImg.classList.remove('show', 'enter');
-      // swap references
       const temp = visibleImg;
       visibleImg = hiddenImg;
       hiddenImg = temp;
-    }, 620); // 620ms deve bater com transition de 600ms do CSS
-  }).catch(err => {
-    console.error(err);
-  });
+    }, 620);
+  }).catch(err => console.error(err));
 }
 
 // Exemplo: trocar imagem em alguma ação:

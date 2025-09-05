@@ -1,15 +1,14 @@
+/* ===== Body ===== */
 body {
   background-image: url("../imagens/floresta-fundo-editado.png");
+  background-size: cover;
+  background-position: center;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-#text {
-  background-color: #0a0a23;
-  color: #ffffff;
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 8px;
-}
-
+/* ===== Game Container ===== */
 #game {
   max-width: 500px;
   background-color: #ffffff;
@@ -21,28 +20,27 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-#controls,
-#stats {
+/* ===== Stats and Controls ===== */
+#stats, #controls, #monsterStats {
   border: 1px solid #0a0a23;
   padding: 5px;
-  color: #0a0a23;
   border-radius: 8px;
   margin-top: 8px;
+  color: #0a0a23;
 }
 
 #monsterStats {
   display: none;
-  border: 1px solid #0a0a23;
-  padding: 5px;
-  color: #ffffff;
   background-color: #c70d0d;
-  border-radius: 8px;
+  color: #ffffff;
 }
 
+/* ===== Individual Stats ===== */
 .stat {
   padding-right: 10px;
 }
 
+/* ===== Buttons ===== */
 button {
   cursor: pointer;
   color: #0a0a23;
@@ -52,35 +50,39 @@ button {
   border-radius: 8px;
   font-weight: bold;
   transition: all 0.2s ease;
+  margin-right: 5px;
 }
 
 button:hover {
   background-color: #ffcc66;
   transform: scale(1.05);
   border-color: #e69500;
-   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-#scene-image {
-  display: block;
-  max-width: 100%;
-  height: auto;
+/* ===== Text Box ===== */
+#text {
+  background-color: #0a0a23;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+
+/* ===== Scene Container e Imagens ===== */
+.scene-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
   margin-top: 15px;
   border-radius: 10px;
-  opacity: 1;
-  transition: opacity 0.6s ease-in-out;
+  overflow: hidden;
 }
 
-.scene-container{
-  display: grid;           /* empilha as imagens na mesma célula da grid */
-  margin-top: 15px;
-  border-radius: 10px;
-  overflow: hidden;        /* garante que nada vaze nos cantos arredondados */
-  max-width: 100%;
-}
-
-.scene-img{
-  grid-area: 1 / 1;        /* faz as imgs ocuparem o mesmo lugar */
+.scene-img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: auto;
   object-fit: contain;
@@ -91,13 +93,6 @@ button:hover {
   -webkit-user-drag: none;
 }
 
-/* imagem visível */
-.scene-img.show{
+.scene-img.show {
   opacity: 1;
-  transform: scale(1);
-}
-
-/* opcional: efeito leve de zoom na entrada */
-.scene-img.enter{
-  transform: scale(1.03);
 }
