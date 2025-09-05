@@ -162,19 +162,19 @@ function changeImage(newSrc) {
 
   preload(newSrc).then(() => {
     hiddenImg.src = newSrc;
-
-    hiddenImg.classList.remove('show', 'enter');
+    hiddenImg.classList.remove('show');
     void hiddenImg.offsetWidth;
 
-    hiddenImg.classList.add('show', 'enter');
-
+    hiddenImg.classList.add('show');
     setTimeout(() => {
-      visibleImg.classList.remove('show', 'enter');
+      visibleImg.classList.remove('show');
       const temp = visibleImg;
       visibleImg = hiddenImg;
       hiddenImg = temp;
     }, 620);
-  }).catch(err => console.error(err));
+  }).catch(err => {
+    console.error(err);
+  });
 }
 
 // Exemplo: trocar imagem em alguma ação:
