@@ -116,30 +116,33 @@ const sceneImages = {
   fangedbeast: "imagens/fangedbeast.jpg",
 };
 
-function changeImage(newSrc) {
-  sceneImage.style.opacity = 0;
-  setTimeout (() => {
-    sceneImage.src = newSrc;
-    sceneImage.onload = () => {
-      sceneImage.style.opacity = 1;
-    };
-  }, 600);
-};
+const imgA = document.getElementById('scene-img-a');
+const imgB = document.getElementById('scene-img-b');
 
-const sceneImage = document.getElementById("scene-image");
+let visibleImg = imgA;
+let hiddenImg = imgB;
+
+function preload(src) {
+  return new Promise((resolve, reject) => {
+    const tmp = new Image();
+    tmp.onload = () => resolve(src);
+    tmp.onerror = () => reject(new Error('Erro ao carregar: ' + src));
+    tmp.src = src;
+  });
+}
 
 function goTown() {
-  sceneImage.src = sceneImages.cidade;
+  changeImage(sceneImages.cidade); 
   update(locations[0]);
 }
 
 function goStore() {
-  sceneImage.src = sceneImages.store;
+  changeImage(sceneImages.store);
   update(locations[1]);
 }
 
 function goCave() {
-  sceneImage.src = sceneImages.cave;
+  changeImage(sceneImages.cave);
   update(locations[2]);
 }
 
@@ -153,6 +156,41 @@ function buyHealth() {
     text.innerText = "You do not have enough gold to buy health.";
   }
 }
+
+function changeImage(newSrc) {
+  // se já está mostrando a mesma imagem, sai
+  if (visibleImg.src && visibleImg.src.includes(newSrc)) return;
+
+  // preload evita flash branco
+  preload(newSrc).then(() => {
+    // define o src na imagem escondida
+    hiddenImg.src = newSrc;
+
+    // prepara classes pra animação
+    // garante que o repaint aconteça
+    hiddenImg.classList.remove('show', 'enter');
+    void hiddenImg.offsetWidth; // forçar reflow para garantir transição
+
+    // mostra a imagem escondida (fade in)
+    hiddenImg.classList.add('show', 'enter');
+
+    // esconde a antiga depois de um pequeno delay (coordenado com o transition)
+    // aqui usamos timeout levemente maior que a transição para garantir suavidade
+    setTimeout(() => {
+      visibleImg.classList.remove('show', 'enter');
+      // swap references
+      const temp = visibleImg;
+      visibleImg = hiddenImg;
+      hiddenImg = temp;
+    }, 620); // 620ms deve bater com transition de 600ms do CSS
+  }).catch(err => {
+    console.error(err);
+  });
+}
+
+// Exemplo: trocar imagem em alguma ação:
+// changeImage('imagens/caverna.jpg');
+
 
 function buyWeapon() {
   if (currentWeapon < weapons.length - 1) {
@@ -187,19 +225,19 @@ function sellWeapon() {
 }
 
 function fightSlime() {
-  sceneImage.src = sceneImages.slime;
+  changeImage(sceneImages.slime);
   fighting = 0;
   goFight();
 }
 
 function fightBeast() {
-  sceneImage.src = sceneImages.fangedbeast;
+  changeImage(sceneImages.fangedbeast);
   fighting = 1;
   goFight();
 }
 
 function fightDragon() {
-  sceneImage.src = sceneImages.dragon;
+  changeImage(sceneImages.dragon);
   fighting = 2;
   goFight();
 }

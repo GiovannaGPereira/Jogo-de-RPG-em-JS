@@ -66,7 +66,38 @@ button:hover {
   max-width: 100%;
   height: auto;
   margin-top: 15px;
-  border-radius: 10px; /* Faz a imagem acompanhar o formato arredondado */
+  border-radius: 10px;
   opacity: 1;
   transition: opacity 0.6s ease-in-out;
+}
+
+.scene-container{
+  display: grid;           /* empilha as imagens na mesma célula da grid */
+  margin-top: 15px;
+  border-radius: 10px;
+  overflow: hidden;        /* garante que nada vaze nos cantos arredondados */
+  max-width: 100%;
+}
+
+.scene-img{
+  grid-area: 1 / 1;        /* faz as imgs ocuparem o mesmo lugar */
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+  opacity: 0;
+  transform: scale(1);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* imagem visível */
+.scene-img.show{
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* opcional: efeito leve de zoom na entrada */
+.scene-img.enter{
+  transform: scale(1.03);
 }
