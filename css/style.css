@@ -1,8 +1,10 @@
 /* ===== Body ===== */
 body {
   background-image: url("../imagens/floresta-fundo-editado.png");
-  background-size: cover;
-  background-position: center;
+  background-size: cover;        /* cobre toda a tela */
+  background-position: center;   /* centraliza */
+  background-repeat: no-repeat;  /* evita repetição */
+  background-attachment: fixed;  /* mantém fixo no scroll */
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -18,6 +20,11 @@ body {
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+   background: rgba(255, 255, 255, 0.15);  /* Transparência */
+  backdrop-filter: blur(8px);             /* Desfoque */
+  -webkit-backdrop-filter: blur(8px);     /* Suporte Safari */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff; /* Mantém o texto branco */
 }
 
 /* ===== Stats and Controls ===== */
@@ -69,32 +76,32 @@ button:hover {
   margin-top: 8px;
 }
 
-/* ===== Scene Container e Imagens ===== */
 /* Container das imagens */
 .scene-container {
   position: relative;
   width: 100%;
   max-width: 500px;
+  height: 300px; /* Mantém altura */
   margin-top: 15px;
   border-radius: 10px;
   overflow: hidden;
+  background: #000; /* Evita fundo branco aparecendo */
 }
 
-/* Imagens da cena */
+/* Todas as imagens começam invisíveis */
 .scene-img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ajusta as imagens para cobrir todo o espaço */
+  object-fit: cover;
   opacity: 0;
-  transition: opacity 0.6s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
   z-index: 0;
 }
 
-/* Imagens visíveis */
-.scene-img.show {
+.scene-img.active {
   opacity: 1;
   z-index: 1;
 }

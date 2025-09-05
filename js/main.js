@@ -106,7 +106,6 @@ function update(location) {
   text.innerHTML = location.text;
 }
 
-// IMAGENS DE CADA BOTÃO QUANDO PRESSIONADO
 const sceneImages = {
   cidade: "imagens/cidade.jpg",
   store: "imagens/loja.jpg",
@@ -116,20 +115,25 @@ const sceneImages = {
   fangedbeast: "imagens/fangedbeast.jpg",
 };
 
-const imgA = document.getElementById('scene-img-a');
-const imgB = document.getElementById('scene-img-b');
+const imgA = document.getElementById("scene-img-a");
+const imgB = document.getElementById("scene-img-b");
 
-let visibleImg = imgA;
-let hiddenImg = imgB;
+let visibleImg = document.getElementById("scene-img-a");
+let hiddenImg = document.getElementById("scene-img-b");
 
-function preload(src) {
-  return new Promise((resolve, reject) => {
-    const tmp = new Image();
-    tmp.onload = () => resolve(src);
-    tmp.onerror = () => reject(new Error('Erro ao carregar: ' + src));
-    tmp.src = src;
-  });
+function changeImage(newSrc) {
+  if (!newSrc || visibleImg.src.includes(newSrc)) return; // Evita trocar pela mesma imagem
+
+  hiddenImg.src = newSrc;
+  hiddenImg.onload = () => {
+    hiddenImg.classList.add("active");
+    visibleImg.classList.remove("active");
+    [visibleImg, hiddenImg] = [hiddenImg, visibleImg];
+  };
 }
+
+// Inicializa com a cidade direto
+showInitialImage(sceneImages.cidade);
 
 function goTown() {
   changeImage(sceneImages.cidade); 
@@ -156,36 +160,6 @@ function buyHealth() {
     text.innerText = "You do not have enough gold to buy health.";
   }
 }
-
-function changeImage(newSrc) {
-  // Se a imagem visível já for a nova, não faz nada
-  if (visibleImg.src && visibleImg.src.includes(newSrc)) return;
-
-  // Precarrega a nova imagem
-  preload(newSrc).then(() => {
-    // Define o src da imagem oculta
-    hiddenImg.src = newSrc;
-
-    // Remove classes anteriores
-    hiddenImg.classList.remove('show');
-    void hiddenImg.offsetWidth; // Força o reflow
-
-    // Adiciona a classe para mostrar a imagem
-    hiddenImg.classList.add('show');
-
-    // Esconde a imagem visível após o tempo da transição
-    setTimeout(() => {
-      visibleImg.classList.remove('show');
-      // Troca as referências das imagens
-      [visibleImg, hiddenImg] = [hiddenImg, visibleImg];
-    }, 620); // 620ms para coincidir com a transição de 600ms
-  }).catch(err => {
-    console.error('Erro ao carregar a imagem:', err);
-  });
-}
-
-// Exemplo: trocar imagem em alguma ação:
-// changeImage('imagens/caverna.jpg');
 
 
 function buyWeapon() {
@@ -348,3 +322,7 @@ function pick(guess) {
     }
   }
 }
+
+window.onload = () => {
+  changeImage(sceneImages.cidade);
+};
