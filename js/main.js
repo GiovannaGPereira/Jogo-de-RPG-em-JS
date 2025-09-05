@@ -116,6 +116,16 @@ const sceneImages = {
   fangedbeast: "imagens/fangedbeast.jpg",
 };
 
+function changeImage(newSrc) {
+  sceneImage.style.opacity = 0;
+  setTimeout (() => {
+    sceneImage = newSrc;
+    sceneImage.onload = () => {
+      sceneImage.style.opacity = 1;
+    };
+  }, 300);
+};
+
 const sceneImage = document.getElementById("scene-image");
 
 function goTown() {
