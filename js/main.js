@@ -192,10 +192,12 @@ function buyWeapon() {
       goldText.innerText = gold;
       let newWeapon = weapons[currentWeapon].name;
       text.innerText = "You now have a " + newWeapon + ".";
+      
+      // Adiciona somente UMA vez ao inventário
       inventory.push(newWeapon);
-      text.innerText += " In your inventory you have: " + inventory;
-      inventory.push(newWeapon);
-updateInventoryIcons();
+
+      text.innerText += " In your inventory you have: " + inventory.join(", ");
+      updateInventoryIcons();
     } else {
       text.innerText = "You do not have enough gold to buy a weapon.";
     }
@@ -210,11 +212,15 @@ function sellWeapon() {
   if (inventory.length > 1) {
     gold += 15;
     goldText.innerText = gold;
-    let currentWeapon = inventory.shift();
-    text.innerText = "You sold a " + currentWeapon + ".";
-    text.innerText += " In your inventory you have: " + inventory;
-    inventory.shift();
-updateInventoryIcons();
+    
+    // Remove SOMENTE o último item (a arma mais recente)
+    let soldWeapon = inventory.pop();
+    
+    text.innerText = "You sold a " + soldWeapon + ".";
+    text.innerText += " In your inventory you have: " + inventory.join(", ");
+    currentWeapon = Math.max(0, currentWeapon - 1); // Ajusta arma atual
+
+    updateInventoryIcons();
   } else {
     text.innerText = "Don't sell your only weapon!";
   }
