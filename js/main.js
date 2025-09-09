@@ -131,6 +131,28 @@ function changeImage(newSrc) {
     [visibleImg, hiddenImg] = [hiddenImg, visibleImg];
   };
 }
+// ITENS DO INVENTÁRIO
+const inventoryIcons = document.getElementById("inventoryIcons");
+
+// Mapear nomes dos itens para imagens
+const itemImages = {
+  stick: "imagens/stick.png",
+  dagger: "imagens/adaga.png",
+  "claw hammer": "imagens/clawhammer.png",
+  sword: "imagens/espada.png"
+};
+
+function updateInventoryIcons() {
+  inventoryIcons.innerHTML = ""; // limpa os ícones atuais
+  inventory.forEach(item => {
+    if (itemImages[item]) {
+      const img = document.createElement("img");
+      img.src = itemImages[item];
+      img.alt = item;
+      inventoryIcons.appendChild(img);
+    }
+  });
+}
 
 // Inicializa com a cidade direto
 showInitialImage(sceneImages.cidade);
@@ -172,6 +194,8 @@ function buyWeapon() {
       text.innerText = "You now have a " + newWeapon + ".";
       inventory.push(newWeapon);
       text.innerText += " In your inventory you have: " + inventory;
+      inventory.push(newWeapon);
+updateInventoryIcons();
     } else {
       text.innerText = "You do not have enough gold to buy a weapon.";
     }
@@ -189,6 +213,8 @@ function sellWeapon() {
     let currentWeapon = inventory.shift();
     text.innerText = "You sold a " + currentWeapon + ".";
     text.innerText += " In your inventory you have: " + inventory;
+    inventory.shift();
+updateInventoryIcons();
   } else {
     text.innerText = "Don't sell your only weapon!";
   }
