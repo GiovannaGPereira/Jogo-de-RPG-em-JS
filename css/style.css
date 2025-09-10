@@ -28,40 +28,54 @@ body {
 }
 
 /* ===== Stats and Controls ===== */
-#stats, #controls, #monsterStats {
+#controls {
   border: 1px solid #0a0a23;
   padding: 5px;
   border-radius: 8px;
-  margin-top: 8px;
+  margin-top: 60px;
   color: #0a0a23;
 }
 
 #stats {
-  position: absolute; /* para ficar sobre a cena do jogo */
+  position: absolute;       /* para ficar dentro do #game, acima dos botões */
   top: 10px;
-  left: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;            /* mantém tudo em linha */
+  flex-wrap: nowrap;        /* não deixa quebrar linha */
+  gap: 20px;                /* espaço entre cada stat */
+  align-items: center;      /* centraliza verticalmente */
+  background-color: rgba(253, 208, 60, 0.514);
+  padding: 10px 30px;
+  border-radius: 8px;
   font-family: 'Arial', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   color: white;
-  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
-  display: flex;
-  gap: 20px; /* espaço entre cada stat */
-  z-index: 1000; /* garante que fique sobre a imagem */
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  z-index: 1000;
 }
 
-#stats .stat strong {
-  margin-left: 5px;
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;  /* espaço entre label e valor */
 }
+
+#inventoryIcons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 
 #monsterStats {
   display: none;
   background-color: #c70d0d;
   color: #ffffff;
-}
-
-/* ===== Individual Stats ===== */
-.stat {
-  padding-right: 10px;
+  border: 1px solid #0a0a23;
+  padding: 5px;
+  border-radius: 8px;
+  margin-top: 6px;
 }
 
 /* ===== Buttons ===== */
