@@ -204,15 +204,27 @@ const itemImages = {
 };
 
 function updateInventoryIcons() {
-  inventoryIcons.innerHTML = ""; // limpa os ícones atuais
+  // limpa os ícones atuais
+  inventoryIcons.innerHTML = ""; 
+  
+  // cria container flex para manter horizontal
+  const container = document.createElement("div");
+  container.style.display = "flex";
+  container.style.flexDirection = "row";
+  container.style.gap = "5px";
+  
   inventory.forEach(item => {
     if (itemImages[item]) {
       const img = document.createElement("img");
       img.src = itemImages[item];
       img.alt = item;
-      inventoryIcons.appendChild(img);
+      img.style.width = "30px";
+      img.style.height = "30px";
+      container.appendChild(img);
     }
   });
+  
+  inventoryIcons.appendChild(container);
 }
 
 // Inicializa com a cidade direto
