@@ -9,6 +9,38 @@ let inventory = ["stick"];
 let music = new Audio();
 music.loop = true;
 
+const icons = {
+  gold: "imagens/moeda.png",
+  hp: "imagens/health.png",
+  xp: "imagens/xp.png"
+};
+
+function showFloatingTextOnHUD(text, color, targetId, iconType = null) {
+  const target = document.getElementById(targetId);
+  const rect = target.getBoundingClientRect(); // pega posição do elemento na tela
+
+  const container = document.createElement("span");
+  container.className = "floating-text";
+  container.style.color = color;
+
+  // Posiciona acima do elemento
+  container.style.left = rect.left + window.scrollX + "px";
+  container.style.top = rect.top + window.scrollY - 30 + "px"; // 30px acima do número
+
+  if (iconType && icons[iconType]) {
+    const icon = document.createElement("img");
+    icon.src = icons[iconType];
+    container.appendChild(icon);
+  }
+
+  const spanText = document.createElement("span");
+  spanText.innerText = text;
+  container.appendChild(spanText);
+
+  document.body.appendChild(container);
+  setTimeout(() => container.remove(), 1000);
+}
+
 const musicas = {
   entrada: "musicas/entrada.mp3",
   cidade: "musicas/cidade.mp3",
@@ -18,12 +50,6 @@ const musicas = {
   dragao: "musicas/dragao.mp3",
   gameover: "musicas/gameover.mp3"
 };
-
-document.getElementById("btnStart").addEventListener("click", () => {
-  tocarMusica("entrada");
-  document.getElementById("btnStart").style.display = "none";
-  update(locations[0]);
-});
 
 function tocarMusica(nome) {
   if (!musicas[nome]) return;
@@ -39,6 +65,7 @@ function tocarMusica(nome) {
     console.log("Autoplay bloqueado pelo navegador");
   });
 }
+
 
 const button1 = document.querySelector('#button1');
 const button2 = document.querySelector("#button2");
@@ -215,6 +242,8 @@ function buyHealth() {
     health += 10;
     goldText.innerText = gold;
     healthText.innerText = health;
+    showFloatingTextOnHUD("-10", "red", "goldText", "gold");  // gastou 10
+    showFloatingTextOnHUD("+10", "green", "healthText", "hp"); // ganhou 10 HP
   } else {
     text.innerText = "You do not have enough gold to buy health.";
   }
@@ -227,12 +256,13 @@ function buyWeapon() {
       gold -= 30;
       currentWeapon++;
       goldText.innerText = gold;
+      showFloatingTextOnHUD("-30", "red", "goldText", "gold");  // gastou 30
       let newWeapon = weapons[currentWeapon].name;
       text.innerText = "You now have a " + newWeapon + ".";
       
       // Adiciona somente UMA vez ao inventário
       inventory.push(newWeapon);
-
+      
       text.innerText += " In your inventory you have: " + inventory.join(", ");
       updateInventoryIcons();
     } else {
@@ -249,13 +279,15 @@ function sellWeapon() {
   if (inventory.length > 1) {
     gold += 15;
     goldText.innerText = gold;
-    
+    showFloatingTextOnHUD("+15", "gold", "goldText", "gold"); // ganhou 20
+
     // Remove SOMENTE o último item (a arma mais recente)
     let soldWeapon = inventory.pop();
     
     text.innerText = "You sold a " + soldWeapon + ".";
     text.innerText += " In your inventory you have: " + inventory.join(", ");
     currentWeapon = Math.max(0, currentWeapon - 1); // Ajusta arma atual
+
 
     updateInventoryIcons();
   } else {
@@ -297,14 +329,19 @@ function goFight() {
 function attack() {
   text.innerText = "The " + monsters[fighting].name + " attacks.";
   text.innerText += " You attack it with your " + weapons[currentWeapon].name + ".";
+
   health -= getMonsterAttackValue(monsters[fighting].level);
   if (isMonsterHit()) {
-    monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;    
+    // garante que monsterHealth nunca fique negativo
+    monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * (xp + 1));
+    if (monsterHealth < 0) monsterHealth = 0;
   } else {
     text.innerText += " You miss.";
   }
+
   healthText.innerText = health;
   monsterHealthText.innerText = monsterHealth;
+
   if (health <= 0) {
     lose();
   } else if (monsterHealth <= 0) {
@@ -314,12 +351,12 @@ function attack() {
       defeatMonster();
     }
   }
-  if (Math.random() <= .1 && inventory.length !== 1) {
+
+  if (Math.random() <= 0.1 && inventory.length !== 1) {
     text.innerText += " Your " + inventory.pop() + " breaks.";
     currentWeapon--;
   }
 }
-
 function getMonsterAttackValue(level) {
   const hit = (level * 5) - (Math.floor(Math.random() * xp));
   console.log(hit);
@@ -334,11 +371,20 @@ function dodge() {
   text.innerText = "You dodge the attack from the " + monsters[fighting].name;
 }
 
+
 function defeatMonster() {
-  gold += Math.floor(monsters[fighting].level * 6.7);
-  xp += monsters[fighting].level;
+  const goldEarned = Math.floor(monsters[fighting].level * 6.7);
+  const xpEarned = monsters[fighting].level;
+
+  gold += goldEarned;
+  xp += xpEarned;
   goldText.innerText = gold;
   xpText.innerText = xp;
+
+  // animações flutuantes no HUD
+  showFloatingTextOnHUD("+" + goldEarned + "G", "gold", "goldText", "gold");
+  showFloatingTextOnHUD("+" + xpEarned + "XP", "blue", "xpText", "xp");
+
   update(locations[4]);
 }
 
@@ -388,10 +434,12 @@ function pick(guess) {
     text.innerText += "Right! You win 20 gold!";
     gold += 20;
     goldText.innerText = gold;
+    showFloatingTextOnHUD("+20", "gold", "goldText", "gold"); // ganhou 20
   } else {
     text.innerText += "Wrong! You lose 10 health!";
     health -= 10;
     healthText.innerText = health;
+
     if (health <= 0) {
       lose();
     }

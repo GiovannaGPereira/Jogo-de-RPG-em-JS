@@ -36,6 +36,23 @@ body {
   color: #0a0a23;
 }
 
+#stats {
+  position: absolute; /* para ficar sobre a cena do jogo */
+  top: 10px;
+  left: 10px;
+  font-family: 'Arial', sans-serif;
+  font-size: 18px;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+  display: flex;
+  gap: 20px; /* espaço entre cada stat */
+  z-index: 1000; /* garante que fique sobre a imagem */
+}
+
+#stats .stat strong {
+  margin-left: 5px;
+}
+
 #monsterStats {
   display: none;
   background-color: #c70d0d;
@@ -111,4 +128,64 @@ button:hover {
   height: 24px;
   margin-left: 4px;  /* espaçamento entre os itens */
   vertical-align: middle;
+}
+
+.floating-text {
+  position: absolute;
+  font-weight: bold;
+  font-size: 18px;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px; /* espaço entre ícone e texto */
+  animation: floatUp 1s ease-out forwards;
+  pointer-events: none;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.floating-text img {
+  width: 18px;
+  height: 18px;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+}
+
+#xpText, #healthText, #goldText, #inventoryIcons {
+  color: white; /* texto branco */
+  font-family: 'Press Start 2P', monospace; /* fonte estilo retrô */
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* sombra suave */
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.4); /* fundo semi-transparente */
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* Ícones do inventário */
+#inventoryIcons img {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+#hud {
+  display: flex;
+  gap: 20px; /* distância entre cada stat */
+  font-family: 'Arial', sans-serif;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+  font-size: 18px;
+  padding: 10px;
+  align-items: center;
 }
