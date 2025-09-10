@@ -6,6 +6,40 @@ let fighting;
 let monsterHealth;
 let inventory = ["stick"];
 
+let music = new Audio();
+music.loop = true;
+
+const musicas = {
+  entrada: "musicas/entrada.mp3",
+  cidade: "musicas/cidade.mp3",
+  loja: "musicas/loja.mp3",
+  caverna: "musicas/caverna.mp3",
+  batalha: "musicas/batalha.mp3",
+  dragao: "musicas/dragao.mp3",
+  gameover: "musicas/gameover.mp3"
+};
+
+document.getElementById("btnStart").addEventListener("click", () => {
+  tocarMusica("entrada");
+  document.getElementById("btnStart").style.display = "none";
+  update(locations[0]);
+});
+
+function tocarMusica(nome) {
+  if (!musicas[nome]) return;
+  if (music.src.includes(musicas[nome])) return;
+
+  music.pause();
+  music = new Audio(musicas[nome]);
+  music.loop = true;
+  music.muted = true; // começa mutado
+  music.play().then(() => {
+    music.muted = false; // desmuta depois de começar
+  }).catch(() => {
+    console.log("Autoplay bloqueado pelo navegador");
+  });
+}
+
 const button1 = document.querySelector('#button1');
 const button2 = document.querySelector("#button2");
 const button3 = document.querySelector("#button3");
@@ -160,16 +194,19 @@ showInitialImage(sceneImages.cidade);
 function goTown() {
   changeImage(sceneImages.cidade); 
   update(locations[0]);
+  tocarMusica("cidade");
 }
 
 function goStore() {
   changeImage(sceneImages.store);
   update(locations[1]);
+  tocarMusica("loja");
 }
 
 function goCave() {
   changeImage(sceneImages.cave);
   update(locations[2]);
+  tocarMusica("caverna");
 }
 
 function buyHealth() {
@@ -250,8 +287,13 @@ function goFight() {
   monsterStats.style.display = "block";
   monsterName.innerText = monsters[fighting].name;
   monsterHealthText.innerText = monsterHealth;
-}
 
+  if (fighting === 2) {
+    tocarMusica("dragao");
+  } else {
+    tocarMusica("batalha");
+  }
+}
 function attack() {
   text.innerText = "The " + monsters[fighting].name + " attacks.";
   text.innerText += " You attack it with your " + weapons[currentWeapon].name + ".";
@@ -302,6 +344,7 @@ function defeatMonster() {
 
 function lose() {
   update(locations[5]);
+  tocarMusica("gameover");
 }
 
 function winGame() {
@@ -357,4 +400,14 @@ function pick(guess) {
 
 window.onload = () => {
   changeImage(sceneImages.cidade);
+  music = new Audio(musicas.entrada);
+  music.loop = true;
+  music.volume = 0; // começa mutada
+  music.play().then(() => {
+    setTimeout(() => {
+      music.volume = 1; // aumenta o volume depois de 200ms
+    }, 200);
+  }).catch(() => {
+    console.log("O navegador bloqueou o autoplay. Tente interagir com a página.");
+  });
 };
