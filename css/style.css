@@ -185,32 +185,28 @@ button:hover {
   margin-right: 10px;
 }
 
+/* ===== Responsividade ===== */
 @media (max-width: 600px) {
   #game {
-    width: 95%;
     margin: 10px auto;
     padding: 8px;
   }
 
   #stats {
-    flex-wrap: wrap;
-    gap: 10px;
-    font-size: 14px;
-    justify-content: center;
-    padding: 5px;
+    font-size: 13px;
+    gap: 3px;
+    padding: 6px;
   }
 
   #controls {
-    display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 45px;
+    gap: 8px;
   }
 
   button {
     width: 100%;
-    font-size: 18px;
-    padding: 12px;
+    font-size: 14px;
+    padding: 10px;
   }
 
   .scene-container {
@@ -223,7 +219,7 @@ button:hover {
   }
 
   #inventoryIcons img {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
   }
 }
