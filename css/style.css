@@ -206,7 +206,8 @@ button:hover {
   button {
     width: 100%;
     font-size: 14px;
-    padding: 10px;
+    padding: 12px;
+    margin: 0.5%;
   }
 
   .scene-container {
