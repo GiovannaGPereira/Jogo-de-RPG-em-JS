@@ -43,13 +43,15 @@ body {
   transform: translateX(-50%);
   display: flex;            /* mantém tudo em linha */
   flex-wrap: nowrap;        /* não deixa quebrar linha */
-  gap: 20px;                /* espaço entre cada stat */
+  gap: 2px;                /* espaço entre cada stat */
   align-items: center;      /* centraliza verticalmente */
   background-color: rgba(253, 208, 60, 0.514);
-  padding: 10px 30px;
+  padding: 10px 5px;
   border-radius: 8px;
   font-family: 'Arial', sans-serif;
-  font-size: 16px;
+  min-width: 500px; /* ou o mesmo do #game */
+  font-size: 15px;
+  font-weight: bold;
   color: white;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
   z-index: 1000;
@@ -68,9 +70,8 @@ body {
 }
 
 #inventoryIcons img {
-  width: 30px;
-  height: 30px;
-  display: block;
+  width: 27px;
+  height: 27px;
 }
 
 #monsterStats {
@@ -105,11 +106,12 @@ button:hover {
 
 /* ===== Text Box ===== */
 #text {
-  background-color: #0a0a23;
+  background-color: #0a0a2396;
   color: #ffffff;
   padding: 10px;
   border-radius: 10px;
   margin-top: 8px;
+  font-size: 15px;
 }
 
 /* Container das imagens */

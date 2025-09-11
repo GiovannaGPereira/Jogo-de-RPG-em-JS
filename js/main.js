@@ -174,6 +174,7 @@ const sceneImages = {
   dragon: "imagens/dragao.jpg",
   slime: "imagens/slime.jpg",
   fangedbeast: "imagens/fangedbeast.jpg",
+  perdeu: "imagens/perdeu.jpg"
 };
 
 const imgA = document.getElementById("scene-img-a");
@@ -263,43 +264,51 @@ function buyHealth() {
 
 
 function buyWeapon() {
-  if (currentWeapon < weapons.length - 1) {
-    if (gold >= 30) {
-      gold -= 30;
-      currentWeapon++;
-      goldText.innerText = gold;
-      showFloatingTextOnHUD("-30", "red", "goldText", "gold");  // gastou 30
-      let newWeapon = weapons[currentWeapon].name;
-      text.innerText = "You now have a " + newWeapon + ".";
-      
-      // Adiciona somente UMA vez ao inventário
-      inventory.push(newWeapon);
-      
-      text.innerText += " In your inventory you have: " + inventory.join(", ");
-      updateInventoryIcons();
-    } else {
-      text.innerText = "You do not have enough gold to buy a weapon.";
-    }
-  } else {
+  const nextWeaponIndex = currentWeapon + 1;
+
+  // Se já tem a arma mais poderosa, muda o botão para vender imediatamente
+  if (currentWeapon >= weapons.length - 1) {
     text.innerText = "You already have the most powerful weapon!";
     button2.innerText = "Sell weapon for 15 gold";
     button2.onclick = sellWeapon;
+    return; // Sai da função sem gastar ouro
+  }
+
+  // Próxima arma
+  const nextWeapon = weapons[nextWeaponIndex].name;
+
+  // Verifica se tem ouro suficiente
+  if (gold >= 30) {
+    gold -= 30;
+    currentWeapon = nextWeaponIndex; // Atualiza arma atual
+    goldText.innerText = gold;
+    showFloatingTextOnHUD("-30", "red", "goldText", "gold");
+
+    // Adiciona ao inventário
+    inventory.push(nextWeapon);
+    updateInventoryIcons();
+
+    text.innerText = "You now have a " + nextWeapon + ".";
+    text.innerText += " In your inventory you have: " + inventory.join(", ");
+  } else {
+    text.innerText = "You do not have enough gold to buy a weapon.";
   }
 }
 
 function sellWeapon() {
   if (inventory.length > 1) {
+    // Encontrar a arma mais fraca, mas nunca a mais poderosa
+    let weaponValues = inventory.map(item => weapons.find(w => w.name === item).power);
+    let minPower = Math.min(...weaponValues);  // arma mais fraca
+    let indexToSell = weaponValues.indexOf(minPower); // índice da arma mais fraca
+    let soldWeapon = inventory.splice(indexToSell, 1)[0]; // remove do inventário
+
     gold += 15;
     goldText.innerText = gold;
-    showFloatingTextOnHUD("+15", "gold", "goldText", "gold"); // ganhou 20
+    showFloatingTextOnHUD("+15", "gold", "goldText", "gold");
 
-    // Remove SOMENTE o último item (a arma mais recente)
-    let soldWeapon = inventory.pop();
-    
     text.innerText = "You sold a " + soldWeapon + ".";
     text.innerText += " In your inventory you have: " + inventory.join(", ");
-    currentWeapon = Math.max(0, currentWeapon - 1); // Ajusta arma atual
-
 
     updateInventoryIcons();
   } else {
@@ -401,8 +410,9 @@ function defeatMonster() {
 }
 
 function lose() {
-  update(locations[5]);
-  tocarMusica("gameover");
+  update(locations[5]);          // atualiza o texto de Game Over
+  changeImage(sceneImages.perdeu); // troca a imagem para "perdeu.jpg"
+  tocarMusica("gameover");       // toca a música de game over
 }
 
 function winGame() {
@@ -410,14 +420,22 @@ function winGame() {
 }
 
 function restart() {
+  // Reset dos status
   xp = 0;
   health = 100;
   gold = 50;
-  currentWeapon = 0;
-  inventory = ["stick"];
+
+  // Reset do inventário
+  inventory = ["stick"];   // volta a ter apenas o stick
+  currentWeapon = 0;       // arma atual volta a ser o stick
+
+  // Atualiza HUD
   goldText.innerText = gold;
   healthText.innerText = health;
   xpText.innerText = xp;
+  updateInventoryIcons();   // atualiza os ícones do inventário
+
+  // Volta para a cidade
   goTown();
 }
 
