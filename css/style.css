@@ -185,3 +185,49 @@ button:hover {
   margin-right: 10px;
 }
 
+/* ===== Ajustes para Celular ===== */
+@media (max-width: 600px) {
+  body {
+    background-size: cover;
+    background-position: center;
+  }
+
+  #game {
+    width: 90%;            /* ocupa quase toda a largura */
+    margin: 20px auto;
+    padding: 10px;
+  }
+
+  #stats {
+    flex-wrap: wrap;        /* deixa quebrar linha só no celular */
+    gap: 10px;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  #controls {
+    display: flex;
+    flex-direction: column; /* botões ficam um embaixo do outro */
+    gap: 8px;
+  }
+
+  button {
+    width: 100%;            /* botão ocupa toda a largura no celular */
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .scene-container {
+    height: 200px;          /* reduz altura da imagem */
+  }
+
+  #inventoryIcons img {
+    width: 24px;
+    height: 24px;
+  }
+
+  #text {
+    font-size: 14px;
+  }
+}
+
