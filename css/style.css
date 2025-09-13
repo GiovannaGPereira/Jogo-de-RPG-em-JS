@@ -185,42 +185,82 @@ button:hover {
   margin-right: 10px;
 }
 
-/* ===== Responsividade ===== */
 @media (max-width: 600px) {
   #game {
+    width: 95%;
     margin: 10px auto;
     padding: 8px;
   }
 
+  /* Barra de status */
   #stats {
-    font-size: 13px;
-    gap: 3px;
-    padding: 6px;
+    position: relative;       /* Tira o fixed pra celular */
+    top: auto;
+    left: auto;
+    transform: none;
+    display: flex;
+    flex-wrap: wrap;           /* Agora pode quebrar linha */
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+    padding: 10px;
+    min-width: auto;
+    width: 100%;
   }
 
+  .stat {
+    flex: 1 1 40%;             /* Ocupa 40% da largura cada */
+    text-align: center;
+  }
+
+  #inventoryIcons {
+    display: flex;
+    flex-wrap: wrap;           /* Quebra linha se precisar */
+    justify-content: center;
+    gap: 5px;
+  }
+
+  #inventoryIcons img {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Botões */
   #controls {
+    display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 15px;
+    margin-top: 20px;
   }
 
   button {
     width: 100%;
-    font-size: 14px;
-    padding: 12px;
-    margin: 0.5%;
+    font-size: 16px;
+    padding: 14px;
   }
 
-  .scene-container {
-    height: 180px;
-  }
-
+  /* Texto */
   #text {
     font-size: 14px;
     padding: 8px;
+    margin-top: 10px;
   }
 
-  #inventoryIcons img {
-    width: 24px;
-    height: 24px;
+  /* Imagens */
+  .scene-container {
+    height: 200px;
   }
+}
+
+.inventory-stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.inventory-stat #inventoryIcons {
+  display: flex;
+  flex-wrap: nowrap; /* Mantém em linha */
+  gap: 5px;
+  align-items: center;
 }
